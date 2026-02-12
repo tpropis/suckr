@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="SUCKR — the beard vacuum built for men who trim. Clean sink. Clean counter. Done." />
+  <title>SUCKR by WHISKR</title>
+
+  <style>
+    :root{
+      /* Core */
+      --bg: #0e1116;             /* deep charcoal (less “dead” than pure black) */
+      --bg2:#101722;             /* subtle cool tint */
+      --card:#121825;
+      --card2:#0f1622;
+      --text:#f4f7ff;
+      --muted:#b7c0d4;
+      --muted2:#93a0bb;
+
+      /* Accents */
+      --accent:#7fd3ff;          /* cool “steel blue” */
+      --accent2:#c7f0ff;
+      --line: rgba(255,255,255,.10);
+      --line2: rgba(127,211,255,.22);
+
+      /* Shadows */
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --shadow2: 0 14px 40px rgba(0,0,0,.35);
+
+      /* Radii */
+      --r-lg: 28px;
+      --r-md: 18px;
+      --r-sm: 12px;
+
+      /* Layout */
+      --max: 1160px;
+      --pad: 24px;
+
+      /* Type */
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(900px 520px at 70% 18%, rgba(127,211,255,.20), transparent 55%),
+        radial-gradient(680px 480px at 10% 22%, rgba(255,255,255,.08), transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+    button{ font-family:inherit; }
+
+    /* Utilities */
+    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .dot{ width:8px; height:8px; border-radius:999px; background: var(--accent); box-shadow:0 0 18px rgba(127,211,255,.55); }
+    .kicker{ color: var(--muted); font-weight:600; letter-spacing:.16em; text-transform:uppercase; font-size:12px; }
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(14,17,22,.86), rgba(14,17,22,.55));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      height:72px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+  	.brand{
+  	min-width:340px;     /* was 260 */
+	}
+
+	.brand .logo{
+  	height:40px;         /* was 26 */
+  	width:auto;
+  	filter: drop-shadow(0 10px 22px rgba(0,0,0,.45));
+	}
+
+    .brand .by{
+      display:flex; align-items:center; gap:10px;
+      color: var(--muted2);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.9;
+    }
+	.brand .by{
+  	font-size:13px;      /* was 12 */
+  	opacity:1;
+	}
+	.brand .by img{
+  	height:18px;         /* was 14 */
+  	width:auto;
+  	opacity:1;
+	}
+.brand .by{
+  position:relative;
+  padding-left:12px;
+}
+.brand .by::before{
+  content:"";
+  width:1px;
+  height:18px;
+  background: rgba(255,255,255,.14);
+  position:absolute;
+  left:0;
+  top:50%;
+  transform: translateY(-50%);
+}
+
+
+
+    .navlinks{
+      display:flex; align-items:center; gap:22px;
+      color: rgba(244,247,255,.88);
+      font-weight:600;
+      font-size:14px;
+    }
+    .navlinks a{
+      opacity:.86;
+      padding:10px 2px;
+      border-bottom: 1px solid transparent;
+      transition: opacity .18s ease, border-color .18s ease;
+    }
+    .navlinks a:hover{ opacity:1; border-color: rgba(127,211,255,.55); }
+
+    .navcta{
+      display:flex; align-items:center; gap:10px;
+      min-width:260px;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 16px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:700;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.24);
+      box-shadow: var(--shadow2);
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(244,247,255,.92));
+      color:#0b0e13;
+      border-color: rgba(255,255,255,.65);
+    }
+    .btn.primary:hover{
+      box-shadow: 0 16px 44px rgba(0,0,0,.42), 0 0 0 6px rgba(127,211,255,.10);
+      border-color: rgba(255,255,255,.85);
+    }
+    .btn.small{ padding:10px 14px; font-size:13px; }
+
+    .hamburger{
+      display:none;
+      width:42px; height:42px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      align-items:center; justify-content:center;
+    }
+
+    /* Hero */
+    .hero{
+      padding: 48px 0 34px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 34px;
+      align-items:center;
+    }
+    .heroLeft{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .heroTitle{
+      font-size: clamp(40px, 4.4vw, 66px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin:0;
+    }
+    .heroTitle span{
+      background: linear-gradient(90deg, #ffffff, rgba(255,255,255,.80));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .heroSub{
+      margin:0;
+      max-width: 560px;
+      color: rgba(244,247,255,.80);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .heroSub strong{ color: var(--text); }
+
+    .heroActions{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top: 6px;
+    }
+    .featurePills{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 8px;
+    }
+
+    .heroRight{
+      position:relative;
+      border-radius: var(--r-lg);
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .heroRight::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background:
+        radial-gradient(420px 280px at 70% 20%, rgba(127,211,255,.26), transparent 60%),
+        radial-gradient(340px 240px at 20% 70%, rgba(255,255,255,.10), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .productFrame{
+      position:relative;
+      border-radius: 22px;
+      overflow:hidden;
+      background: rgba(10,14,20,.45);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .productFrame img{
+      width:100%;
+      height:auto;
+      transform: scale(1.02);
+    }
+    .productCaption{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px;
+      padding: 14px 14px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,14,20,.45);
+    }
+    .capLeft{
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .capTitle{ font-weight:800; letter-spacing:.02em; }
+    .capSub{ color: var(--muted); font-size:13px; }
+    .capTag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(127,211,255,.26);
+      background: rgba(127,211,255,.10);
+      color:#dff7ff;
+      font-weight:800;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    /* Section base */
+    section{ padding: 54px 0; }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: clamp(26px, 3vw, 38px);
+      letter-spacing: -0.03em;
+      line-height:1.1;
+    }
+    .sectionHead p{
+      margin:0;
+      max-width: 520px;
+      color: rgba(244,247,255,.75);
+      line-height:1.55;
+      font-size: 15px;
+    }
+
+    /* Cards */
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--r-lg);
+      padding: 18px;
+      box-shadow: 0 16px 44px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(320px 240px at 20% 20%, rgba(127,211,255,.14), transparent 55%);
+      opacity:.8;
+      pointer-events:none;
+    }
+    .card h3{
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      letter-spacing:-.01em;
+    }
+    .card p{
+      margin:0;
+      color: rgba(244,247,255,.76);
+      line-height:1.55;
+      font-size: 14px;
+    }
+    .icon{
+      width:38px; height:38px;
+      border-radius: 14px;
+      border:1px solid rgba(127,211,255,.24);
+      background: rgba(127,211,255,.10);
+      display:flex; align-items:center; justify-content:center;
+      margin-bottom: 12px;
+      box-shadow: 0 14px 30px rgba(0,0,0,.22);
+    }
+    .icon svg{ width:18px; height:18px; fill: #dbf7ff; }
+
+    /* How it works */
+    .works{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items:stretch;
+      margin-top: 14px;
+    }
+    .steps{
+      display:flex; flex-direction:column; gap:12px;
+    }
+    .step{
+      display:flex; gap:12px;
+      padding:14px;
+      border-radius: var(--r-md);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .num{
+      width:34px; height:34px;
+      border-radius: 12px;
+      border:1px solid rgba(127,211,255,.25);
+      background: rgba(127,211,255,.12);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      color:#dff7ff;
+      flex: 0 0 auto;
+    }
+    .step h4{ margin:0 0 4px 0; font-size:14px; }
+    .step p{ margin:0; color: rgba(244,247,255,.72); font-size:14px; line-height:1.5; }
+
+    .worksMedia{
+      border-radius: var(--r-lg);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+      padding: 16px;
+    }
+    .worksMedia::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(420px 320px at 50% 20%, rgba(127,211,255,.20), transparent 60%);
+      pointer-events:none;
+    }
+    .worksMedia .mediaFrame{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(10,14,20,.45);
+      position:relative;
+    }
+    .worksMedia .mediaFrame img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .miniStats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+      position:relative;
+    }
+    .stat{
+      padding: 12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .stat b{ display:block; font-size:13px; letter-spacing:.01em; }
+    .stat span{ display:block; color: rgba(244,247,255,.72); font-size:12px; margin-top:4px; }
+
+    /* System section (Suckr + optional Stuckr) */
+    .systemGrid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      align-items:stretch;
+      margin-top: 14px;
+    }
+    .systemLeft{
+      padding: 18px;
+      border-radius: var(--r-lg);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      position:relative;
+      overflow:hidden;
+    }
+    .systemLeft::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 360px at 20% 20%, rgba(127,211,255,.18), transparent 55%);
+      pointer-events:none;
+    }
+    .bulletRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      position:relative;
+    }
+    .bullet{
+      padding: 12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(244,247,255,.78);
+      font-size: 14px;
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .bullet .check{
+      width:18px; height:18px; border-radius: 6px;
+      border:1px solid rgba(127,211,255,.30);
+      background: rgba(127,211,255,.14);
+      flex: 0 0 auto;
+      margin-top: 2px;
+      position:relative;
+    }
+    .bullet .check::after{
+      content:"";
+      position:absolute;
+      left:5px; top:3px;
+      width:6px; height:10px;
+      border-right:2px solid #dff7ff;
+      border-bottom:2px solid #dff7ff;
+      transform: rotate(40deg);
+    }
+
+    .systemRight{
+      padding: 18px;
+      border-radius: var(--r-lg);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+    }
+    .systemRight::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 360px at 70% 30%, rgba(255,255,255,.08), transparent 60%);
+      pointer-events:none;
+    }
+    .quote{
+      margin:0;
+      font-size: 16px;
+      line-height:1.6;
+      color: rgba(244,247,255,.82);
+      position:relative;
+    }
+    .quote b{ color: var(--text); }
+    .quoteFooter{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-top: 14px;
+      color: rgba(244,247,255,.62);
+      font-size: 13px;
+      position:relative;
+    }
+
+    /* FAQ */
+    .faq{
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+    }
+    .faqItem{
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .faqItem:first-child{ border-top:none; }
+    .faqQ{
+      width:100%;
+      text-align:left;
+      background: transparent;
+      border:none;
+      color: var(--text);
+      padding: 16px 16px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size: 15px;
+    }
+    .faqA{
+      max-height:0;
+      overflow:hidden;
+      transition: max-height .25s ease;
+      color: rgba(244,247,255,.75);
+      padding: 0 16px;
+    }
+    .faqA p{
+      margin: 0 0 14px 0;
+      line-height:1.6;
+      font-size:14px;
+    }
+    .chev{
+      width:34px; height:34px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      display:flex; align-items:center; justify-content:center;
+      flex:0 0 auto;
+      transition: transform .18s ease;
+    }
+    .chev svg{ width:16px; height:16px; fill:#dff7ff; opacity:.9; }
+    .faqItem.open .chev{ transform: rotate(180deg); }
+    .faqItem.open .faqA{ max-height: 260px; padding-top: 0; }
+
+    /* Footer CTA */
+    .ctaBand{
+      border-radius: var(--r-lg);
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(700px 420px at 15% 20%, rgba(127,211,255,.20), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      padding: 22px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 16px;
+      box-shadow: var(--shadow2);
+    }
+    .ctaBand h3{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:-.01em;
+    }
+    .ctaBand p{
+      margin:6px 0 0 0;
+      color: rgba(244,247,255,.75);
+      font-size: 14px;
+      line-height:1.5;
+    }
+    .footer{
+      padding: 26px 0 34px;
+      color: rgba(244,247,255,.62);
+      font-size: 13px;
+    }
+    .footerRow{
+      display:flex; align-items:center; justify-content:space-between; gap: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 16px;
+      margin-top: 18px;
+    }
+
+    /* Reveal animations */
+    .reveal{ opacity:0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; }
+    .reveal.in{ opacity:1; transform: translateY(0); }
+
+    /* Mobile */
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+      .navcta{ min-width: unset; }
+      .sectionHead{ flex-direction:column; align-items:flex-start; }
+      .grid3{ grid-template-columns: 1fr; }
+      .works{ grid-template-columns: 1fr; }
+      .systemGrid{ grid-template-columns: 1fr; }
+      .bulletRow{ grid-template-columns: 1fr; }
+      .miniStats{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px){
+      .navlinks{ display:none; }
+      .hamburger{ display:flex; }
+      .brand .logo{ height:32px; }
+	.brand .by img{ height:16px; }
+
+      .hero{ padding-top: 32px; }
+      .ctaBand{ flex-direction:column; align-items:flex-start; }
+      .heroRight{ padding: 14px; }
+    }
+
+    /* Mobile menu */
+    .mobileMenu{
+      display:none;
+      padding: 10px 0 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .mobileMenu.open{ display:block; }
+    .mobileMenu a{
+      display:block;
+      padding: 12px 0;
+      color: rgba(244,247,255,.88);
+      font-weight:700;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .mobileMenu a:last-child{ border-bottom:none; }
+  </style>
+</head>
+
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="container">
+      <div class="nav">
+        <div class="brand">
+          <!-- Keep same filenames -->
+          <img class="logo" src="./assets/suckr_logo_new.png" alt="SUCKR" />
+          <div class="by">
+            <span>by</span>
+            <img src="./assets/whiskr_logo.png" alt="WHISKR" />
+          </div>
+        </div>
+
+        <nav class="navlinks" aria-label="Primary navigation">
+          <a href="#product">Product</a>
+          <a href="#how">How it Works</a>
+          <a href="#system">System</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="navcta">
+          <a class="btn small" href="#how">See how it works</a>
+          <a class="btn primary small" href="#buy">Buy Now</a>
+          <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="#f4f7ff" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobileMenu" id="mobileMenu">
+        <a href="#product">Product</a>
+        <a href="#how">How it Works</a>
+        <a href="#system">System</a>
+        <a href="#faq">FAQ</a>
+        <a href="#buy">Buy Now</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section class="hero" id="product">
+      <div class="container">
+        <div class="heroGrid">
+          <div class="heroLeft">
+            <div class="pill reveal">
+              <span class="dot"></span>
+              <span><b>Beard vacuum</b> for mess-free trimming</span>
+              <span style="opacity:.55;">•</span>
+              <span>Cordless</span>
+            </div>
+
+            <h1 class="heroTitle reveal">
+              <span>Stop the mess.</span><br />
+              Clean sink. Clean counter. <span>Done.</span>
+            </h1>
+
+            <p class="heroSub reveal">
+              SUCKR is a <strong>compact vacuum</strong> built for beard trimmings—so your bathroom stays clean
+              without wiping, sweeping, or “my bad” conversations.
+            </p>
+
+            <div class="heroActions reveal">
+              <a class="btn primary" href="#buy">Shop SUCKR</a>
+              <a class="btn" href="#how">See how it works</a>
+            </div>
+
+            <div class="featurePills reveal">
+              <span class="pill">Powerful suction</span>
+              <span class="pill">Precision nozzle</span>
+              <span class="pill">Cordless + compact</span>
+            </div>
+          </div>
+
+          <div class="heroRight reveal" aria-label="Product image">
+            <div class="productFrame">
+              <img src="./assets/suckr_mock.png" alt="SUCKR device on countertop" />
+              <div class="productCaption">
+                <div class="capLeft">
+                  <div class="capTitle">SUCKR</div>
+                  <div class="capSub">Beard trimmings cleanup vacuum</div>
+                </div>
+                <div class="capTag">
+                  <span class="dot"></span>
+                  <span>Mess → Gone</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Value props -->
+    <section>
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">Why SUCKR</div>
+            <h2>Built for the mess you actually make.</h2>
+          </div>
+          <p>
+            Trimming shouldn’t end with a cleanup project. SUCKR is designed to pick up beard trimmings fast,
+            where they land—on the sink, counter, and edges.
+          </p>
+        </div>
+
+        <div class="grid3">
+          <div class="card reveal">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 12-14h-7z"/></svg>
+            </div>
+            <h3>Powerful suction</h3>
+            <p>Designed to grab fine trimmings without chasing them around the counter.</p>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 21h10v-2H7v2Zm10-4H7v-6a5 5 0 0 1 10 0v6Zm-5-16a7 7 0 0 0-7 7v7h14V8a7 7 0 0 0-7-7Z"/></svg>
+            </div>
+            <h3>Mess-free trimming</h3>
+            <p>Clean line, clean sink. Less wiping. Less arguing. More done.</p>
+          </div>
+
+          <div class="card reveal">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 6h10v7H7V6Zm10 9H7v3h10v-3Zm2-11H5v18h14V4Z"/></svg>
+            </div>
+            <h3>Cordless + compact</h3>
+            <p>Lives on the counter. Always ready. Looks like premium hardware—not a tool box.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">How it works</div>
+            <h2>Trim. Vacuum. Walk away.</h2>
+          </div>
+          <p>
+            The goal is simple: remove the cleanup step. SUCKR gives you a fast pass from beard mess to spotless.
+          </p>
+        </div>
+
+        <div class="works">
+          <div class="steps">
+            <div class="step reveal">
+              <div class="num">1</div>
+              <div>
+                <h4>Trim like normal</h4>
+                <p>Use your trimmer, then let the mess land where it lands.</p>
+              </div>
+            </div>
+            <div class="step reveal">
+              <div class="num">2</div>
+              <div>
+                <h4>Run SUCKR across the surface</h4>
+                <p>Target edges, corners, and the sink rim—where trimmings love to hide.</p>
+              </div>
+            </div>
+            <div class="step reveal">
+              <div class="num">3</div>
+              <div>
+                <h4>Clean counter. Done.</h4>
+                <p>No paper towels. No wet wipes. No “I’ll do it later.”</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="worksMedia reveal">
+            <div class="mediaFrame">
+              <img src="./assets/suckr_mock.png" alt="SUCKR device close-up" />
+            </div>
+
+            <div class="miniStats">
+              <div class="stat">
+                <b>Precision nozzle</b>
+                <span>Focused pickup where trimmings accumulate.</span>
+              </div>
+              <div class="stat">
+                <b>Counter-ready</b>
+                <span>Designed to live out, not hidden away.</span>
+              </div>
+              <div class="stat">
+                <b>Fast cleanup</b>
+                <span>Mess disappears in seconds.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- System -->
+    <section id="system">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">The system</div>
+            <h2>One device. One job. Perfectly.</h2>
+          </div>
+          <p>
+            SUCKR is built to solve one annoying problem at a premium standard—so your bathroom stays clean without effort.
+          </p>
+        </div>
+
+        <div class="systemGrid">
+          <div class="systemLeft reveal">
+            <h3 style="margin:0 0 6px 0;">What you get</h3>
+            <p style="margin:0; color:rgba(244,247,255,.75); line-height:1.55;">
+              A dedicated beard-mess solution that looks great on your counter—and performs like it.
+            </p>
+
+            <div class="bulletRow">
+              <div class="bullet"><span class="check"></span><span>Clean sink & counter in seconds</span></div>
+              <div class="bullet"><span class="check"></span><span>Designed for beard trimmings</span></div>
+              <div class="bullet"><span class="check"></span><span>Premium matte hardware finish</span></div>
+              <div class="bullet"><span class="check"></span><span>Simple, cordless daily use</span></div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn primary" href="#buy">Buy SUCKR</a>
+              <a class="btn" href="#faq">Questions?</a>
+            </div>
+          </div>
+
+          <div class="systemRight reveal">
+            <p class="quote">
+              “If you trim, you already know the mess. <b>SUCKR ends it</b>—without wiping, sweeping, or explaining.”
+            </p>
+            <div class="quoteFooter">
+              <span>Built from the mess.</span>
+              <span style="color:rgba(127,211,255,.85); font-weight:800;">SUCKR</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">FAQ</div>
+            <h2>Quick answers. No fluff.</h2>
+          </div>
+          <p>
+            Keep it simple. If you want, we can add pricing, shipping, and warranty details once you finalize them.
+          </p>
+        </div>
+
+        <div class="faq">
+          <div class="faqItem open">
+            <button class="faqQ" type="button">
+              <span>Is SUCKR a shaver?</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+              </span>
+            </button>
+            <div class="faqA">
+              <p>No—SUCKR is a <b>vacuum</b> designed to pick up beard trimmings after you trim.</p>
+            </div>
+          </div>
+
+          <div class="faqItem">
+            <button class="faqQ" type="button">
+              <span>Where do you use it?</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+              </span>
+            </button>
+            <div class="faqA">
+              <p>On the sink, counter, edges, and wherever trimmings land. It’s built for bathroom surfaces.</p>
+            </div>
+          </div>
+
+          <div class="faqItem">
+            <button class="faqQ" type="button">
+              <span>Does it work on fine trimmings?</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+              </span>
+            </button>
+            <div class="faqA">
+              <p>Yes—SUCKR targets the fine, annoying debris that sticks around after trimming.</p>
+            </div>
+          </div>
+
+          <div class="faqItem">
+            <button class="faqQ" type="button">
+              <span>What about charging / power?</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+              </span>
+            </button>
+            <div class="faqA">
+              <p>We can plug in your real specs (battery life, motor, charging). The layout is ready.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Buy -->
+    <section id="buy">
+      <div class="container">
+        <div class="ctaBand reveal">
+          <div>
+            <h3>Ready to stop the mess?</h3>
+            <p>Clean sink. Clean counter. Done. SUCKR is built for men who trim—so your bathroom stays clean.</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn primary" href="#">Buy SUCKR</a>
+            <a class="btn" href="#how">See how it works</a>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="footerRow">
+            <span>© <span id="year"></span> SUCKR by WHISKR</span>
+            <span style="display:flex; gap:14px;">
+              <a href="#product" style="opacity:.85;">Product</a>
+              <a href="#faq" style="opacity:.85;">FAQ</a>
+              <a href="#buy" style="opacity:.85;">Buy</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
+    hamburger?.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      hamburger.setAttribute("aria-expanded", String(isOpen));
+    });
+    mobileMenu?.querySelectorAll("a").forEach(a=>{
+      a.addEventListener("click", ()=> mobileMenu.classList.remove("open"));
+    });
+
+    // FAQ accordion
+    document.querySelectorAll(".faqItem").forEach(item => {
+      const btn = item.querySelector(".faqQ");
+      btn.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+        document.querySelectorAll(".faqItem").forEach(i => i.classList.remove("open"));
+        if(!isOpen) item.classList.add("open");
+      });
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add("in");
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
+
