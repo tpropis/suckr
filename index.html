@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="SUCKR — beard trimmings cleanup vacuum. Not a shaver. Stop the mess, keep the peace." />
+  <title>SUCKR by WHISKR</title>
+
+  <style>
+    :root{
+      --bg0:#06080d;
+      --bg1:#0a1018;
+      --bg2:#0e1623;
+
+      --text:#f5f7ff;
+      --muted:rgba(245,247,255,.76);
+      --muted2:rgba(245,247,255,.60);
+
+      --line:rgba(255,255,255,.10);
+      --line2:rgba(255,255,255,.16);
+
+      --glass:rgba(255,255,255,.06);
+      --glass2:rgba(255,255,255,.045);
+
+      --accent:#7fd3ff;
+      --accent2:#b5a8ff;
+
+      --shadow: 0 28px 100px rgba(0,0,0,.55);
+      --shadow2: 0 16px 54px rgba(0,0,0,.34);
+
+      --r-xl:30px;
+      --r-lg:22px;
+
+      --max:1180px;
+      --pad:24px;
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(900px 560px at 70% 10%, rgba(127,211,255,.18), transparent 60%),
+        radial-gradient(720px 520px at 18% 18%, rgba(181,168,255,.12), transparent 62%),
+        linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 38%, var(--bg2) 100%);
+      overflow-x:hidden;
+    }
+
+    /* Subtle tech grid */
+    .gridFx{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.35;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 55% at 50% 20%, #000 50%, transparent 100%);
+      animation: drift 10s linear infinite;
+      transform: translateZ(0);
+    }
+    @keyframes drift{
+      from{ background-position: 0 0, 0 0; }
+      to{ background-position: 64px 0, 0 64px; }
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    img, video{ display:block; max-width:100%; }
+    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
+
+    /* ===== Header ===== */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(6,8,13,.92), rgba(6,8,13,.58));
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .nav{
+      height:84px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:10px 14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.045);
+      box-shadow: 0 18px 56px rgba(0,0,0,.26);
+      white-space:nowrap;
+      position:relative;
+      overflow:hidden;
+    }
+    .brand:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(420px 280px at 20% 30%, rgba(127,211,255,.18), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .brand > *{ position:relative; z-index:1; }
+    .brand img.suckr{
+      height:56px;
+      width:auto;
+      filter: drop-shadow(0 18px 34px rgba(0,0,0,.55));
+    }
+
+    .byline{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding-left:14px;
+      border-left: 1px solid rgba(255,255,255,.16);
+      color: rgba(244,247,255,.70);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+    }
+    /* WHISKR visibility */
+    .byline img{
+      height:18px;
+      width:auto;
+      opacity:1;
+      filter: brightness(1.9) contrast(1.25) saturate(1.1) drop-shadow(0 6px 14px rgba(127,211,255,.22));
+    }
+    .byFallback{
+      display:none;
+      font-weight:900;
+      letter-spacing:.12em;
+      font-size:11px;
+      color: rgba(245,247,255,.86);
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+    }
+
+    .descriptor{
+      margin-left: 8px;
+      color: rgba(244,247,255,.65);
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      font-weight:900;
+      font-size:14px;
+      color: rgba(244,247,255,.92);
+    }
+    .navlinks a{
+      opacity:.86;
+      padding:10px 2px;
+      border-bottom: 1px solid transparent;
+      transition: opacity .18s ease, border-color .18s ease;
+    }
+    .navlinks a:hover{
+      opacity:1;
+      border-color: rgba(127,211,255,.55);
+    }
+
+    .navcta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:900;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.24);
+      box-shadow: var(--shadow2);
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(244,247,255,.92));
+      color:#0b0e13;
+      border-color: rgba(255,255,255,.70);
+    }
+    .btn.primary:hover{
+      box-shadow: 0 18px 54px rgba(0,0,0,.42), 0 0 0 6px rgba(127,211,255,.10);
+      border-color: rgba(255,255,255,.90);
+    }
+
+    /* ===== Hero ===== */
+    .hero{ padding: 44px 0 14px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.02fr 1.12fr;
+      gap: 28px;
+      align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      background: rgba(255,255,255,.045);
+      color: rgba(244,247,255,.80);
+      font-size:13px;
+      line-height:1;
+      white-space:nowrap;
+      width: fit-content;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(127,211,255,.55);
+    }
+
+    .heroTitle{
+      margin:16px 0 0 0;
+      font-size: clamp(42px, 4.6vw, 68px);
+      line-height: 1.03;
+      letter-spacing: -0.05em;
+    }
+    .heroSub{
+      margin: 14px 0 0 0;
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.62;
+    }
+    .heroSub strong{ color: var(--text); }
+
+    .humorLine{
+      margin-top: 10px;
+      color: rgba(245,247,255,.80);
+      font-weight:900;
+      letter-spacing:-.01em;
+    }
+    .humorLine span{ color: rgba(127,211,255,.95); }
+
+    .heroActions{
+      margin-top: 18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    /* POV toggle */
+    .pov{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.045);
+    }
+    .povLabel{
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color: rgba(245,247,255,.72);
+    }
+    .toggle{
+      position:relative;
+      width: 140px;
+      height: 34px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      overflow:hidden;
+      cursor:pointer;
+      user-select:none;
+    }
+    .toggleKnob{
+      position:absolute;
+      top:3px; left:3px;
+      width: 66px;
+      height: 28px;
+      border-radius:999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(245,247,255,.82));
+      box-shadow: 0 10px 22px rgba(0,0,0,.32);
+      transition: left .18s ease;
+    }
+    .toggleText{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 0 12px;
+      font-weight:900;
+      font-size:12px;
+      color: rgba(245,247,255,.72);
+      letter-spacing:.02em;
+    }
+    .toggle.isHer .toggleKnob{ left: 71px; }
+
+    .badges{
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(244,247,255,.78);
+      font-weight:900;
+      font-size: 13px;
+    }
+
+    /* ===== Hero Media ===== */
+    .mediaShell{
+      position:relative;
+      border-radius: var(--r-xl);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      background: #0b0f16;
+      isolation:isolate;
+    }
+    .mediaShell::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(520px 360px at 70% 18%, rgba(127,211,255,.18), transparent 60%),
+        radial-gradient(520px 360px at 20% 78%, rgba(181,168,255,.10), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+      z-index:0;
+    }
+    .mediaFrame{
+      position:relative;
+      z-index:1;
+      aspect-ratio: 16 / 10;
+      overflow:hidden;
+      background:#0b0f16;
+    }
+
+    video.heroVideo{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      object-position: 50% 55%;
+      transform:none;
+      filter: contrast(1.05) saturate(1.05) brightness(1.03);
+    }
+
+    /* Tap-to-play overlay if autoplay blocked */
+    .tapPlay{
+      position:absolute;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background: rgba(7,10,15,.18);
+      backdrop-filter: blur(8px);
+      z-index:4;
+    }
+    .tapBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 16px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: rgba(244,247,255,.92);
+      font-weight:900;
+      cursor:pointer;
+      box-shadow: var(--shadow2);
+      user-select:none;
+    }
+
+    /* Minimal caption */
+    .caption{
+      position:absolute;
+      left:18px;
+      bottom:18px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      padding:12px 14px;
+      border-radius: 18px;
+      background: rgba(7,10,15,.22);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      max-width: 80%;
+      z-index:3;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .caption b{ font-size:14px; letter-spacing:-.01em; }
+    .caption span{ font-size:13px; color: rgba(244,247,255,.78); }
+
+    /* ===== NEW: Hover Compare Overlay ===== */
+    .compareOverlay{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    /* soft vignette */
+    .compareOverlay::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(120% 120% at 50% 30%, transparent 35%, rgba(0,0,0,.22) 100%);
+      opacity:.9;
+    }
+    .compareHint{
+      position:absolute;
+      top:16px; left:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(7,10,15,.24);
+      backdrop-filter: blur(10px);
+      color: rgba(245,247,255,.82);
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.02em;
+    }
+    .pulseDot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(127,211,255,.55);
+      animation: pulse 1.3s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity: .85; }
+      50%{ transform: scale(1.25); opacity: 1; }
+    }
+
+    /* divider line */
+    .compareLine{
+      position:absolute;
+      top:12%;
+      bottom:10%;
+      left:50%;
+      width:2px;
+      transform: translateX(-1px);
+      background: linear-gradient(180deg, transparent, rgba(127,211,255,.55), transparent);
+      box-shadow: 0 0 18px rgba(127,211,255,.25);
+      border-radius:999px;
+      opacity:.85;
+    }
+
+    .tag{
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(7,10,15,.26);
+      backdrop-filter: blur(10px);
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:12px;
+      color: rgba(245,247,255,.88);
+    }
+    .tag.mess{ left:16px; }
+    .tag.clean{ right:16px; }
+    .tag.clean{
+      border-color: rgba(127,211,255,.26);
+      box-shadow: 0 0 0 6px rgba(127,211,255,.08);
+    }
+
+    /* Show overlay on hover/focus or when forced on mobile */
+    .mediaShell:hover .compareOverlay,
+    .mediaShell:focus-within .compareOverlay,
+    .mediaShell.forceCompare .compareOverlay{
+      opacity:1;
+    }
+    .mediaShell:hover .caption,
+    .mediaShell.forceCompare .caption{
+      opacity:.0;
+      transform: translateY(6px);
+    }
+
+    /* Sections (kept minimal) */
+    section{ padding: 52px 0; }
+    .footer{
+      padding: 26px 0 34px;
+      color: rgba(244,247,255,.62);
+      font-size: 13px;
+    }
+    .footerRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 16px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+      .descriptor{ display:none; }
+      .compareHint{ top:14px; left:14px; }
+    }
+    @media (max-width: 760px){
+      .navlinks{ display:none; }
+      .brand img.suckr{ height: 42px; }
+      .byline{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="gridFx"></div>
+
+  <header class="topbar">
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#product" aria-label="SUCKR home">
+          <img class="suckr" src="./assets/suckr_logo_new.png" alt="SUCKR" />
+          <div class="byline">
+            <span>by</span>
+            <img id="whiskrMark" src="./assets/whiskr_logo.png" alt="WHISKR" />
+            <span class="byFallback" id="byFallback">WHISKR</span>
+          </div>
+          <div class="descriptor">BEARD CLEANUP VACUUM</div>
+        </a>
+
+        <nav class="navlinks" aria-label="Primary navigation">
+          <a href="#product">Product</a>
+          <a href="#how">How it works</a>
+          <a href="#system">System</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="navcta">
+          <a class="btn" href="#how">See how it works</a>
+          <a class="btn primary" href="#buy">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="product">
+      <div class="container">
+        <div class="heroGrid">
+          <div>
+            <div class="pill">
+              <span class="dot"></span>
+              <span><b>Beard cleanup vacuum</b> (not a shaver)</span>
+              <span style="opacity:.55;">•</span>
+              <span>Cordless</span>
+            </div>
+
+            <h1 class="heroTitle" id="heroTitle">Stop the mess.<br/>Keep the peace.</h1>
+
+            <p class="heroSub" id="heroSub">
+              SUCKR is a <strong>compact vacuum</strong> built for beard trimmings—so your bathroom stays clean
+              without wiping, sweeping, or “my bad” conversations.
+            </p>
+
+            <div class="humorLine" id="humorLine">
+              <span>His POV:</span> “I’ll clean it up.” (and actually does)
+            </div>
+
+            <div class="heroActions">
+              <a class="btn primary" href="#buy">Shop SUCKR</a>
+              <a class="btn" href="#how">See it in action</a>
+
+              <div class="pov" title="Tap to switch messaging">
+                <div class="povLabel">POV</div>
+                <div class="toggle" id="toggle" role="button" aria-label="Toggle POV: His/Her" tabindex="0">
+                  <div class="toggleKnob"></div>
+                  <div class="toggleText">
+                    <span>His</span>
+                    <span>Her</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="badges">
+              <span class="badge">Powerful suction</span>
+              <span class="badge">Precision nozzle</span>
+              <span class="badge">Counter-ready</span>
+            </div>
+          </div>
+
+          <div class="mediaShell" id="mediaShell" tabindex="0" aria-label="Hero demo video">
+            <div class="mediaFrame">
+              <video
+                class="heroVideo"
+                id="heroVideo"
+                muted
+                loop
+                autoplay
+                playsinline
+                preload="auto"
+                poster="./assets/suckr_mock.png"
+              >
+                <source src="./assets/loop_home.mp4" type="video/mp4" />
+              </video>
+
+              <!-- Hover Compare Overlay -->
+              <div class="compareOverlay" aria-hidden="true">
+                <div class="compareHint">
+                  <span class="pulseDot"></span>
+                  Hover to compare
+                </div>
+                <div class="compareLine"></div>
+                <div class="tag mess">Mess</div>
+                <div class="tag clean">Clean</div>
+              </div>
+
+              <div class="tapPlay" id="tapPlay">
+                <div class="tapBtn" id="tapBtn">
+                  <span style="display:inline-flex; width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 18px rgba(127,211,255,.55);"></span>
+                  Tap to play demo
+                </div>
+              </div>
+
+              <div class="caption">
+                <b>Trim → vacuum → done</b>
+                <span>Designed for sink edges + counters. Picks up fine beard trimmings fast.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <section id="how" style="padding-top:46px;">
+          <div class="footer">
+            <div class="footerRow">
+              <span>© <span id="year"></span> SUCKR by WHISKR</span>
+              <span style="display:flex; gap:14px;">
+                <a href="#product" style="opacity:.85;">Product</a>
+                <a href="#how" style="opacity:.85;">How it works</a>
+                <a href="#buy" style="opacity:.85;">Buy</a>
+              </span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // WHISKR logo fallback if PNG fails to load
+    const whiskrMark = document.getElementById("whiskrMark");
+    const byFallback = document.getElementById("byFallback");
+    whiskrMark?.addEventListener("error", () => {
+      whiskrMark.style.display = "none";
+      byFallback.style.display = "inline-flex";
+    });
+
+    // Video autoplay robustness
+    const vid = document.getElementById("heroVideo");
+    const tapPlay = document.getElementById("tapPlay");
+    const tapBtn = document.getElementById("tapBtn");
+
+    async function kickVideo(){
+      if(!vid) return;
+      vid.muted = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      vid.autoplay = true;
+
+      try{
+        const p = vid.play();
+        if(p && typeof p.then === "function") await p;
+        if(tapPlay) tapPlay.style.display = "none";
+      } catch(e){
+        if(tapPlay) tapPlay.style.display = "flex";
+      }
+    }
+    window.addEventListener("load", () => setTimeout(kickVideo, 120));
+    ["click","touchstart","keydown"].forEach(evt=>{
+      window.addEventListener(evt, kickVideo, { once:true, passive:true });
+    });
+    tapBtn?.addEventListener("click", kickVideo);
+
+    // POV toggle
+    const toggle = document.getElementById("toggle");
+    const heroTitle = document.getElementById("heroTitle");
+    const heroSub = document.getElementById("heroSub");
+    const humorLine = document.getElementById("humorLine");
+    let isHer = false;
+
+    function setPOV(){
+      toggle.classList.toggle("isHer", isHer);
+
+      if(isHer){
+        heroTitle.innerHTML = "Stop the mess.<br/>Save the mood.";
+        heroSub.innerHTML =
+          "SUCKR is a <strong>compact vacuum</strong> built for beard trimmings—so the sink stays clean and the bathroom stays peaceful. You trim. SUCKR cleans.";
+        humorLine.innerHTML =
+          "<span>Her POV:</span> “Thank you.” (said without being asked)";
+      } else {
+        heroTitle.innerHTML = "Stop the mess.<br/>Keep the peace.";
+        heroSub.innerHTML =
+          "SUCKR is a <strong>compact vacuum</strong> built for beard trimmings—so your bathroom stays clean without wiping, sweeping, or “my bad” conversations.";
+        humorLine.innerHTML =
+          "<span>His POV:</span> “I’ll clean it up.” (and actually does)";
+      }
+    }
+
+    toggle?.addEventListener("click", () => { isHer = !isHer; setPOV(); });
+    toggle?.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " ") { e.preventDefault(); isHer = !isHer; setPOV(); }
+    });
+    setPOV();
+
+    // Mobile: tap hero media to briefly show compare overlay (since no hover)
+    const mediaShell = document.getElementById("mediaShell");
+    let t = null;
+    mediaShell?.addEventListener("click", () => {
+      mediaShell.classList.add("forceCompare");
+      clearTimeout(t);
+      t = setTimeout(()=> mediaShell.classList.remove("forceCompare"), 1700);
+    }, { passive:true });
+  </script>
+</body>
+</html>
